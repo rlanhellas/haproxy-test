@@ -1,0 +1,13 @@
+config_version: 2
+name: 3d4f3ecf3861
+mode: single
+status: ""
+dataplaneapi:
+  advertised:
+    api_address: ""
+    api_port: 0
+  scheme:
+  - http
+haproxy:
+  reload:
+    reload_strategy: custom

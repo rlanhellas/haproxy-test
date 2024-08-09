@@ -1,0 +1,11 @@
+.:1053 {
+    forward . 8.8.8.8:53
+    log
+}
+
+internal:1053 {
+    log
+    file /tmp/db.internal {
+        reload 10s
+    }
+}
