@@ -1,11 +1,10 @@
-# _md5hash=ddf0c0504423b79cd71ee8e54985d836
-# _version=44
+# _md5hash=8a41f8e46939f7fcfe2d117d930fea20
+# _version=1089
 # Dataplaneapi managed File
 # changing file directly can cause a conflict if dataplaneapi is running
 
 global
   log stdout format raw daemon debug
-  # stats socket ipv4@*:9999  level admin  expose-fd listeners
 
 defaults unnamed_defaults_1
   mode tcp
@@ -19,19 +18,13 @@ defaults unnamed_defaults_1
 userlist haproxy-dataplaneapi
   user admin insecure-password admin
 
-resolvers coredns
-  nameserver ns1 dns:1053
-  parse-resolv-conf
-
 frontend ingress from unnamed_defaults_1
   bind 0.0.0.0:10000
   default_backend serverA
 
 backend serverA from unnamed_defaults_1
-  balance roundrobin
   server main serverb:80 no-backup
-
-backend serverB from unnamed_defaults_1
+  server backup servera:80 backup
 
 program api
   command /usr/bin/dataplaneapi --host 0.0.0.0 --port 5555 --haproxy-bin /usr/sbin/haproxy --config-file /usr/local/etc/haproxy/haproxy.cfg --reload-cmd "kill -SIGUSR2 1" --restart-cmd "kill -SIGUSR2 1" --reload-delay 5 --userlist haproxy-dataplaneapi
